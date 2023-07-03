@@ -61,7 +61,7 @@ Authorization: Bearer {{ access_user_token }}
 
 
 ### Create one Cat object (with CHOICES)
-POST http://127.0.0.1:8000/cats/
+POST {{ host }}cats/
 Content-Type: application/json
 Authorization: Bearer {{ access_user_token }}
 
@@ -79,6 +79,29 @@ Authorization: Bearer {{ access_user_token }}
 # IsAuthenticatedOrReadOnly
 ### Get the list of cats using the extracted users token
 GET {{ host }}cats/
+
+
+# Test custom permission (from user ikruglov try to change
+#  achekhov cat
+###
+PATCH  {{ host }}cats/1/
+Content-Type: application/json
+Authorization: Bearer {{ access_user_token }}
+
+{
+    "birth_year": 1666
+}
+
+# Test custom permission (from user ikruglov try to delete
+#  achekhov cat
+###
+DELETE {{ host }}cats/1/
+Authorization: Bearer {{ access_user_token }}
+
+
+
+
+
 
 
 
