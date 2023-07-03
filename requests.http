@@ -43,7 +43,7 @@ Content-Type: application/json
 
 ### Get the list of cats using the extracted users token
 GET {{ host }}cats/
-Authorization: Bearer {{ access_user_token }}
+# Authorization: Bearer {{ access_user_token }}
 
 ### Get the list of users using the extracted users token
 GET {{ host }}users/
@@ -54,10 +54,13 @@ GET {{ host }}achievements/
 Authorization: Bearer {{ access_user_token }}
 
 
-
 ### Get one User object
 GET {{ host }}users/1/
 Authorization: Bearer {{ access_user_token }}
+
+### Get one Cat object
+GET {{ host }}cats/1/
+# Authorization: Bearer {{ access_user_token }}
 
 
 ### Create one Cat object (with CHOICES)
