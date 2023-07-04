@@ -151,6 +151,8 @@ REST_FRAMEWORK = {
         # в меру собственной фантазии
         'low_request': '1/minute',
     },
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 2,
 }
 
 SIMPLE_JWT = {

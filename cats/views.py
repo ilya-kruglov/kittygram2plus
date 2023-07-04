@@ -1,5 +1,6 @@
 from rest_framework import viewsets
-from rest_framework.throttling import AnonRateThrottle, ScopedRateThrottle
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.throttling import ScopedRateThrottle
 
 from .models import Achievement, Cat, User
 from .permissions import OwnerOrReadOnly, ReadOnly
@@ -19,6 +20,12 @@ class CatViewSet(viewsets.ModelViewSet):
     # А далее применится лимит low_request
     # Для любых пользователей установим кастомный лимит 1 запрос в минуту
     throttle_scope = 'low_request'
+    # Обратите внимание: если раньше список объектов был прямо в теле JSON,
+    # то теперь объекты вложены в список results.
+    # Если пагинация установлена на уровне проекта, то для отдельного класса
+    # её можно отключить, установив для атрибута pagination_class
+    # значение None.
+    pagination_class = PageNumberPagination
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
