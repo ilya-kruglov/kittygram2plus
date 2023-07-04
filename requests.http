@@ -102,6 +102,11 @@ DELETE {{ host }}cats/1/
 Authorization: Bearer {{ access_user_token }}
 
 
+# LimitOffsetPagination
+### Get the list of cats with number of return obj = limit and start from obj = offset
+# offset = 0 is the first obj
+GET {{ host }}cats/?limit=2&offset=0
+
 
 
 

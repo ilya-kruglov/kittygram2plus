@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.throttling import ScopedRateThrottle
 
 from .models import Achievement, Cat, User
@@ -25,7 +25,9 @@ class CatViewSet(viewsets.ModelViewSet):
     # Если пагинация установлена на уровне проекта, то для отдельного класса
     # её можно отключить, установив для атрибута pagination_class
     # значение None.
-    pagination_class = PageNumberPagination
+    # Даже если на уровне проекта установлен PageNumberPagination
+    # Для котиков будет работать LimitOffsetPagination
+    pagination_class = LimitOffsetPagination
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
