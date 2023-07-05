@@ -108,6 +108,25 @@ Authorization: Bearer {{ access_user_token }}
 GET {{ host }}cats/?limit=2&offset=0
 
 
+# Фильтрация: бэкенд DjangoFilterBackend
+### Get the list of all Black cats
+GET {{ host }}cats/?color=Black
+
+# Поиск: бэкенд SearchFilter
+### Get the list of all cats which names contain 'bul' (case-insensitive)
+GET {{ host }}cats/?search=bul
+
+# Поиск: бэкенд SearchFilter
+### Можно искать по нескольким совпадениям: в запросе их надо разделить запятыми, без пробелов.
+# В выдачу попадут только те котики, где есть одновременно все совпадения, например — «Кеша».
+GET {{ host }}cats/?search=К,ша
+
+# Сортировка выдачи: бэкенд OrderingFilter
+### Get the list of all cats ordered by name (reversed is -name)
+GET {{ host }}cats/?ordering=name
+
+### Get the list of all cats ordered by name and birth_year
+GET {{ host }}cats/?ordering=name,birth_year
 
 
 

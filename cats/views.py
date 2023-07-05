@@ -1,4 +1,5 @@
-from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, viewsets
 from rest_framework.throttling import ScopedRateThrottle
 
 from .models import Achievement, Cat, User
@@ -12,8 +13,6 @@ class CatViewSet(viewsets.ModelViewSet):
     queryset = Cat.objects.all()
     serializer_class = CatSerializer
     permission_classes = (OwnerOrReadOnly,)
-    # throttle_classes = (AnonRateThrottle,)
-
     # Если кастомный тротлинг-класс вернёт True - запросы будут обработаны
     # Если он вернёт False - все запросы будут отклонены
     throttle_classes = (WorkingHoursRateThrottle, ScopedRateThrottle)
@@ -26,7 +25,33 @@ class CatViewSet(viewsets.ModelViewSet):
     # её можно отключить, установив для атрибута pagination_class
     # значение None.
     # Вот он наш собственный класс пагинации с page_size=20
-    pagination_class = CatsPagination
+
+    # pagination_class = CatsPagination
+
+    # Указываем фильтрующий бэкенд DjangoFilterBackend
+    # Из библиотеки django-filter
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter,
+                       filters.OrderingFilter)
+    # Временно отключим пагинацию на уровне вьюсета,
+    # так будет удобнее настраивать фильтрацию
+    pagination_class = None
+    # Фильтровать будем по полям color и birth_year модели Cat
+    filterset_fields = ('color', 'birth_year')
+
+    # Поиск можно проводить и по содержимому полей связанных моделей.
+    # Доступные для поиска поля связанной модели указываются через нотацию с
+    # двойным подчёркиванием: ForeignKey текущей модели__имя поля в
+    # связанной модели.
+    # search_fields = ('achievements__name', 'owner__username')
+
+    # filter_backends = (filters.SearchFilter,)
+    # # Определим, что значение параметра search должно быть началом
+    # # искомой строки
+    # search_fields = ('^name',)
+
+    search_fields = ('name',)
+    ordering_fields = ('name', 'birth_year')
+    ordering = ('birth_year',)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
