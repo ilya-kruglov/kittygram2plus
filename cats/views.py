@@ -3,7 +3,7 @@ from rest_framework import filters, viewsets
 from rest_framework.throttling import ScopedRateThrottle
 
 from .models import Achievement, Cat, User
-from .pagination import CatsPagination
+# from .pagination import CatsPagination
 from .permissions import OwnerOrReadOnly, ReadOnly
 from .serializers import AchievementSerializer, CatSerializer, UserSerializer
 from .throttling import WorkingHoursRateThrottle
